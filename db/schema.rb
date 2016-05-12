@@ -19,9 +19,9 @@ ActiveRecord::Schema.define(version: 20160512221816) do
   create_table "users", force: :cascade do |t|
     t.string   "email"
     t.string   "password"
-    t.boolean  "blocked"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean  "blocked",    default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
 end

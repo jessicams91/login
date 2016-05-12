@@ -3,7 +3,7 @@ class CreateUsers < ActiveRecord::Migration
     create_table :users do |t|
       t.string :email
       t.string :password
-      t.boolean :blocked
+      t.boolean :blocked, default: false
 
       t.timestamps null: false
     end
