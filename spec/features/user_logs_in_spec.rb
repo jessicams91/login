@@ -22,7 +22,7 @@ describe 'User logs in' do
 
     click_on "Log in"
 
-    expect(page).to have_text("Invalid email or password")
+    expect(page).to have_text("Invalid email!")
   end
 
   scenario 'with wrong password' do
@@ -34,7 +34,7 @@ describe 'User logs in' do
 
     click_on "Log in"
 
-    expect(page).to have_text("Invalid email or password")
+    expect(page).to have_text("Invalid password!")
   end
 
   scenario 'with wrong password more than 5 times' do
@@ -42,7 +42,7 @@ describe 'User logs in' do
 
     visit root_path
 
-    5.times do
+    6.times do
       fill_in 'session[email]', with: user.email
       fill_in 'session[password]', with: ''
       click_on "Log in"

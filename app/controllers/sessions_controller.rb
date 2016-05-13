@@ -3,13 +3,22 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.authenticate(params[:session][:email].downcase,
-                             params[:session][:password])
+    user = User.find_by_email(params[:session][:email].downcase)
     if user
-      log_in user
-      redirect_to root_url, :notice => "Logged in!"
+      if user.wrong_login_count >= 5
+        flash.now.alert = "User is blocked, more than 5 wrong password tries!"
+        render 'new'
+      elsif User.authenticate?(user, params[:session][:password])
+        user.update(wrong_login_count: 0)
+        log_in user
+        redirect_to root_url, notice: "Logged in!"
+      else
+        user.increment!(:wrong_login_count, by = 1)
+        flash.now.alert = "Invalid password!"
+        render 'new'
+      end
     else
-      flash.now.alert = "Invalid email or password"
+      flash.now.alert = "Invalid email!"
       render 'new'
     end
   end
